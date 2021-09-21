@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
 
 const UseStateCounter = () => {
-  return <h2>useState counter example</h2>;
+  const[text,setText]=useState(0)
+const anotherFunction=()=>{
+  setTimeout(()=>{
+setText((n)=>{return n+1})
+  }, 2000)
+}
+  return (
+    <>  
+    <h3>{text}</h3>
+    <button className="btn" type="button" onClick={anotherFunction}>button</button>
+    </>
+  );
 };
 
 export default UseStateCounter;
