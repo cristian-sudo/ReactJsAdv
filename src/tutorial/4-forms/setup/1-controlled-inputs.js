@@ -6,42 +6,36 @@ import React, { useState } from 'react';
 // value, onChange
 
 const ControlledInputs = () => {
-const Four=document.createElement("h5");
-const MyF=document.querySelector("#form");
-
 
 const [name,setName]=useState("")
 const [email,setEmail]=useState("")
-const Submit=(e)=>{
-  e.preventDefault()
-  console.log("aaaaa")
-}
+const [list,setList]=useState([])
+const [id,setID]=useState(0)
 
+const Submit=(e)=>{
+e.preventDefault()//not autorefreshing the page
+const MyObj={id,name,email}//creating an object
+//let NewArray=[];
+//NewArray.push(MyObj)
+//setList(NewArray)
+
+setList((Newelement)=>{
+  return [...Newelement,MyObj]
+    })//set the new state having the old state as parameter and adding a new person
+
+setName("")
+setEmail("")
+setID((Privious)=>Privious+1)
+  }
 
 const NameChange=(e)=>{
-  
-
   setName(e.target.value)
-  const MyName=e.target.value
-  if(MyName.length<=4){
-    if(!document.querySelector("#second")){
-    const MyF=document.querySelector("#form");
-    Four.innerText="Your name must be 4+ caracter"
-    MyF.append(Four)
-    Four.id="second"
-    }
-    
-  }else{
-    const All=document.querySelector("#second")
-    All.remove()
-  }
 }
 
 
 const EmailChange=(e)=>{
-
+setEmail(e.target.value)
 }
-
   return <>
   <article>
   <form className="form" onSubmit={Submit} id="form">
@@ -55,6 +49,19 @@ const EmailChange=(e)=>{
     </div>
     <button type="submit" className="btn">Submit</button>
   </form>
+  </article>
+  <article>
+    <ul>
+      <li>Person List</li>
+     {
+       list.map((element)=>{
+         const {id,name,email}=element
+         return <li key={id} className="item">
+        <h3>ID:{id}___Name:{name}___Email:{email}</h3>
+         </li>
+       })
+     }
+    </ul>
   </article>
   </>;
 };
