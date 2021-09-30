@@ -7,18 +7,21 @@ import React, { useState } from 'react';
 // dynamic object keys
 
 const ControlledInputs = () => {
-  const [person,setPerson]=useState({ID:"", Name:"",Email:"",Age:""})
-  const [people, setPeople] = useState([]);
- const handleChanges=(e)=>{
-   const name=e.target.name
-   const value=e.target.value
-  setPerson({...person,[name]:value,ID: new Date().getTime().toString()})
-
+  const [person,setPerson]=useState({ID:"", Name:"",Email:"",Age:""})//create a state that contains an object
+  const [people, setPeople] = useState([]);//create a state with an array of objects
+  
+  const handleChanges=(e)=>{//once we type this function is called
+  const name=e.target.name//get the name of the element in this case of the input
+  const value=e.target.value//get the value of the input at that point
+  //set the person object adding value by value based on the element name and the privious state
+  setPerson({...person/*get the privius state*/,[name]:value,  ID: new Date().getTime().toString()})
  }
- const submit=(e)=>{
-e.preventDefault()
-setPeople([...people,person])
-setPerson({ID:"",Name:"",Email:"",Age:""})
+
+ //Once we click on submit
+const submit=(e)=>{
+e.preventDefault()//it dont reload the page pressing the button
+setPeople([...people,person])//Add the current person obhect to the list
+setPerson({ID:"",Name:"",Email:"",Age:""})//initialising the inputs that are connected to the names of inputs
  }
   
   return (
@@ -64,12 +67,12 @@ setPerson({ID:"",Name:"",Email:"",Age:""})
 
 
         {people.map((person, index) => {
-          const { id, firstName, email } = person;
+          const { ID, Name, Email , Age} = person;//dicomposing
           return (
-            <div className='item' key={id}>
-             <h4>{person.Name}</h4>
-              <p>{person.Email}</p>
-              <p>{person.Age}</p>
+            <div className='item' key={ID}>
+             <h4>{Name}</h4>
+              <p>{Email}</p>
+              <p>{Age}</p>
              </div>
            );
         })}
