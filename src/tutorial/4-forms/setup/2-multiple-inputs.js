@@ -7,16 +7,18 @@ import React, { useState } from 'react';
 // dynamic object keys
 
 const ControlledInputs = () => {
-  const [person,setPerson]=useState({Name:"",Email:"",Age:""})
+  const [person,setPerson]=useState({ID:"", Name:"",Email:"",Age:""})
   const [people, setPeople] = useState([]);
  const handleChanges=(e)=>{
    const name=e.target.name
    const value=e.target.value
-  setPerson({...person,[name]:value})
+  setPerson({...person,[name]:value,ID: new Date().getTime().toString()})
 
  }
  const submit=(e)=>{
 e.preventDefault()
+setPeople([...people,person])
+setPerson({ID:"",Name:"",Email:"",Age:""})
  }
   
   return (
@@ -50,7 +52,7 @@ e.preventDefault()
               type='text'
               id='Age'
               name='Age'
-              value={person.age}
+              value={person.Age}
               onChange={handleChanges}
             />
           </div>
@@ -65,10 +67,11 @@ e.preventDefault()
           const { id, firstName, email } = person;
           return (
             <div className='item' key={id}>
-              <h4>{firstName}</h4>
-              <p>{email}</p>
-            </div>
-          );
+             <h4>{person.Name}</h4>
+              <p>{person.Email}</p>
+              <p>{person.Age}</p>
+             </div>
+           );
         })}
       </article>
     </>
