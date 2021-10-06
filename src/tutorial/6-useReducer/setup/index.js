@@ -3,13 +3,19 @@ import Modal from './Modal';
 import { data } from '../../../data';
 // reducer function
 //have the privious state and the action to do based on type
+//the action gibe us the type
 const reducer=(state,action)=>{
+  if(action.type==="ADD_ITEM"){
+    const newItems=[...state.people, action.new_item]//containg my person
+    return {...state,people:newItems,isModalOpen:true,modalContent:"Person added"}
+  }
+  return state
 }
 
 const defaultState={
 people:[],
 isModalOpen:false,
-modalContent:""
+modalContent:"",
 }
 
 
@@ -21,12 +27,13 @@ const Index = () => {
   //reducer is the funtion that will do somenthing to our state
   //defaultState is the default value
   const [state,dispatch]=useReducer(reducer,defaultState)
-  const [key,setKey]=useState(0)
 
   const SubmitHandle = (e)=>{
   e.preventDefault()
   if(name){
-dispatch({type: "Testing"})
+  const newItem={id:new Date().getTime().toString(),name}
+  dispatch({type: "ADD_ITEM" ,new_item:newItem} )
+  setName("")
   }else{
   }
   
