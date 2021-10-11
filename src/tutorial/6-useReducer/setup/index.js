@@ -1,16 +1,11 @@
 import React, { useState, useReducer } from 'react';
 import Modal from './Modal';
 import { data } from '../../../data';
+import reducer from "./reducer"
 // reducer function
 //have the privious state and the action to do based on type
 //the action gibe us the type
-const reducer=(state,action)=>{
-  if(action.type==="ADD_ITEM"){
-    const newItems=[...state.people, action.new_item]//containg my person
-    return {...state,people:newItems,isModalOpen:true,modalContent:"Person added"}
-  }
-  return state
-}
+
 
 const defaultState={
 people:[],
@@ -30,18 +25,23 @@ const Index = () => {
 
   const SubmitHandle = (e)=>{
   e.preventDefault()
+
   if(name){
   const newItem={id:new Date().getTime().toString(),name}
   dispatch({type: "ADD_ITEM" ,new_item:newItem} )
   setName("")
   }else{
+  dispatch({type: "NO_ITEM"} )
   }
-  
   }
+const closeModal=()=>{
+    dispatch({type: "DISAPEAR"} )
+}
+
 
   return <>
 
-  {state.isModalOpen && <Modal modalContent={state.modalContent}/>}
+  {state.isModalOpen && <Modal modalContent={state.modalContent} closeModal={closeModal}/>}
   
   <form className="form" onSubmit={SubmitHandle}>
 <input type="text" 
@@ -54,6 +54,9 @@ onChange={(e)=>{setName(e.target.value)}}
     {state.people.map((a)=>{
       return <p className="item" key={a.id}>
         {a.name}
+        <button onClick={()=>{
+    dispatch({type: "REMOVE",IDPass:a.id } )
+        }}>Remove</button>
       </p>
     })}
   </div>
