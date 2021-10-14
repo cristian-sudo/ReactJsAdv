@@ -7,26 +7,34 @@ const MyContext=React.createContext();
 
 const PropDrilling = () => {
   const [people,setPeople]=useState(data)
-  return <MyContext.Provider value="ciao">
+
+  const removePerson=(id)=>{
+      setPeople((people)=>{
+       return people.filter(person=>person.id!==id)
+     })
+    }
+  return <MyContext.Provider value={{removePerson}}>
   <section>
     <h3>prop drilling</h3>
     <List people ={people}/>
   </section>
    </MyContext.Provider>;
-};
+}
 
 const List =({people})=>{
   return <>
   {people.map((person)=>{
-    return <SinglePerson key={person.id}/>
+    return <SinglePerson key={person.id}{...person}/>
   })}
   </>
 }
 
 const SinglePerson=({id,name})=>{
-  const myData=useContext(MyContext)
+  const {removePerson}=useContext(MyContext)
+  
   return <div className="item">
-<h3>Single item{myData}</h3>
+<h3>{name}</h3>
+<button className="btn" onClick={()=>removePerson(id)}>remove</button>
   </div>
 }
-export default PropDrilling;
+export default PropDrilling
